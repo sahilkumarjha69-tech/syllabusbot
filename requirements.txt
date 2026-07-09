@@ -1,0 +1,7 @@
+flask
+gunicorn
+requests
+chromadb
+pypdf
+python-docx
+python-pptx
