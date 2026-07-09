@@ -1,4 +1,5 @@
 import os
+import zipfile
 import requests
 import chromadb
 from flask import Flask, request, jsonify, render_template_string
@@ -14,7 +15,17 @@ EMBEDDING_MODEL = "nvidia/nv-embedqa-e5-v5"
 CHAT_MODEL = "meta/llama-3.1-8b-instruct"
 
 CHROMA_DB = "./course_kb"
+CHROMA_ZIP = "./course_kb.zip"
 TOP_K = 4
+
+###########################################################
+# Auto-unzip the knowledge base on first startup
+###########################################################
+if not os.path.isdir(CHROMA_DB) and os.path.isfile(CHROMA_ZIP):
+    print(f"Extracting {CHROMA_ZIP} ...")
+    with zipfile.ZipFile(CHROMA_ZIP, "r") as zf:
+        zf.extractall(".")
+    print("Extraction complete.")
 
 ###########################################################
 # Chroma DB
